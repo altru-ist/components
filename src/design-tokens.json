@@ -1,0 +1,465 @@
+{
+  "$schema": "https://tr.designtokens.org/format/dist/schemas/tokens-schema.json",
+  "$description": "CUI Design System Tokens - W3C Design Tokens Format",
+  "color": {
+    "text": {
+      "primary": {
+        "$type": "color",
+        "$value": "rgb(51 65 85)",
+        "$description": "Primary text for headers and body content",
+        "semantic": "header-body"
+      },
+      "secondary": {
+        "$type": "color",
+        "$value": "rgb(100 116 139)",
+        "$description": "Secondary text for subtitles and captions",
+        "semantic": "subtitle-caption"
+      },
+      "on-dark": {
+        "$type": "color",
+        "$value": "rgb(255 255 255)",
+        "$description": "Text on dark backgrounds"
+      },
+      "success": {
+        "large": {
+          "$type": "color",
+          "$value": "rgb(22 163 74)",
+          "$description": "Success text for prominent content"
+        },
+        "small": {
+          "$type": "color",
+          "$value": "rgb(21 128 61)",
+          "$description": "Success text for small content"
+        }
+      },
+      "warning": {
+        "large": {
+          "$type": "color",
+          "$value": "rgb(234 88 12)",
+          "$description": "Warning text for prominent content"
+        },
+        "small": {
+          "$type": "color",
+          "$value": "rgb(194 65 12)",
+          "$description": "Warning text for small content"
+        }
+      },
+      "danger": {
+        "large": {
+          "$type": "color",
+          "$value": "rgb(220 38 38)",
+          "$description": "Danger text for prominent content"
+        },
+        "small": {
+          "$type": "color",
+          "$value": "rgb(185 28 28)",
+          "$description": "Danger text for small content"
+        }
+      },
+      "info": {
+        "large": {
+          "$type": "color",
+          "$value": "rgb(2 132 199)",
+          "$description": "Info text for prominent content"
+        },
+        "small": {
+          "$type": "color",
+          "$value": "rgb(3 105 161)",
+          "$description": "Info text for small content"
+        }
+      }
+    },
+    "surface": {
+      "default": {
+        "white": {
+          "$type": "color",
+          "$value": "rgb(255 255 255)",
+          "$description": "Default white surface"
+        },
+        "gray": {
+          "$type": "color",
+          "$value": "rgb(252 252 252)",
+          "$description": "Default gray surface"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "rgb(241 245 249)",
+          "$description": "Hover state for default surfaces"
+        }
+      },
+      "success": {
+        "default": {
+          "$type": "color",
+          "$value": "rgb(187 247 208)",
+          "$description": "Success surface"
+        },
+        "light": {
+          "$type": "color",
+          "$value": "rgb(220 252 231)",
+          "$description": "Light success surface"
+        },
+        "lighter": {
+          "$type": "color",
+          "$value": "rgb(240 253 244)",
+          "$description": "Lightest success surface"
+        }
+      },
+      "warning": {
+        "default": {
+          "$type": "color",
+          "$value": "rgb(254 215 170)",
+          "$description": "Warning surface"
+        },
+        "light": {
+          "$type": "color",
+          "$value": "rgb(255 237 213)",
+          "$description": "Light warning surface"
+        },
+        "lighter": {
+          "$type": "color",
+          "$value": "rgb(255 247 237)",
+          "$description": "Lightest warning surface"
+        }
+      },
+      "danger": {
+        "default": {
+          "$type": "color",
+          "$value": "rgb(254 202 202)",
+          "$description": "Danger surface"
+        },
+        "light": {
+          "$type": "color",
+          "$value": "rgb(254 202 202)",
+          "$description": "Light danger surface"
+        },
+        "lighter": {
+          "$type": "color",
+          "$value": "rgb(254 242 242)",
+          "$description": "Lightest danger surface"
+        }
+      },
+      "info": {
+        "default": {
+          "$type": "color",
+          "$value": "rgb(186 230 253)",
+          "$description": "Info surface"
+        },
+        "light": {
+          "$type": "color",
+          "$value": "rgb(219 234 254)",
+          "$description": "Light info surface"
+        },
+        "lighter": {
+          "$type": "color",
+          "$value": "rgb(239 246 255)",
+          "$description": "Lightest info surface"
+        }
+      }
+    },
+    "border": {
+      "neutral": {
+        "default": {
+          "$type": "color",
+          "$value": "rgb(203 213 225)",
+          "$description": "Default neutral border"
+        },
+        "subtle": {
+          "$type": "color",
+          "$value": "rgb(226 232 240)",
+          "$description": "Subtle neutral border"
+        }
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "rgb(30 41 59)",
+        "$description": "Focus state border"
+      },
+      "success": {
+        "$type": "color",
+        "$value": "rgb(134 239 172)",
+        "$description": "Success border"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "rgb(253 186 116)",
+        "$description": "Warning border"
+      },
+      "danger": {
+        "$type": "color",
+        "$value": "rgb(252 165 165)",
+        "$description": "Danger border"
+      },
+      "info": {
+        "$type": "color",
+        "$value": "rgb(125 211 252)",
+        "$description": "Info border"
+      }
+    },
+    "button": {
+      "hero": {
+        "rest": {
+          "$type": "color",
+          "$value": "rgb(78 51 217)",
+          "$description": "Hero button default state"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "rgb(64 42 179)",
+          "$description": "Hero button hover state"
+        },
+        "active": {
+          "$type": "color",
+          "$value": "rgb(51 34 140)",
+          "$description": "Hero button active state"
+        }
+      },
+      "primary": {
+        "rest": {
+          "$type": "color",
+          "$value": "rgb(38 38 38)",
+          "$description": "Primary button default state"
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "rgb(23 23 23)",
+          "$description": "Primary button hover state"
+        },
+        "active": {
+          "$type": "color",
+          "$value": "rgb(10 10 10)",
+          "$description": "Primary button active state"
+        }
+      }
+    }
+  },
+  "typography": {
+    "font-family": {
+      "primary": {
+        "$type": "fontFamily",
+        "$value": [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif"
+        ],
+        "$description": "Primary font family for interface"
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": ["Fira Code", "Monaco", "Menlo", "Courier New", "monospace"],
+        "$description": "Monospace font family for code"
+      }
+    },
+    "font-weight": {
+      "light": {
+        "$type": "fontWeight",
+        "$value": 300,
+        "$description": "Light font weight"
+      },
+      "normal": {
+        "$type": "fontWeight",
+        "$value": 400,
+        "$description": "Normal font weight"
+      },
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500,
+        "$description": "Medium font weight"
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600,
+        "$description": "Semibold font weight"
+      },
+      "bold": {
+        "$type": "fontWeight",
+        "$value": 700,
+        "$description": "Bold font weight"
+      },
+      "black": {
+        "$type": "fontWeight",
+        "$value": 900,
+        "$description": "Black font weight"
+      }
+    },
+    "font-size": {
+      "xs": {
+        "$type": "dimension",
+        "$value": "0.75rem",
+        "$description": "Extra small text size (12px)"
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "0.875rem",
+        "$description": "Small text size (14px)"
+      },
+      "base": {
+        "$type": "dimension",
+        "$value": "1rem",
+        "$description": "Base text size (16px)"
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "1.125rem",
+        "$description": "Large text size (18px)"
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "1.25rem",
+        "$description": "Extra large text size (20px)"
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "1.5rem",
+        "$description": "2X large text size (24px)"
+      },
+      "3xl": {
+        "$type": "dimension",
+        "$value": "1.875rem",
+        "$description": "3X large text size (30px)"
+      },
+      "4xl": {
+        "$type": "dimension",
+        "$value": "2.25rem",
+        "$description": "4X large text size (36px)"
+      },
+      "5xl": {
+        "$type": "dimension",
+        "$value": "3rem",
+        "$description": "5X large text size (48px)"
+      }
+    },
+    "line-height": {
+      "tight": {
+        "$type": "number",
+        "$value": 1.25,
+        "$description": "Tight line height for headings"
+      },
+      "normal": {
+        "$type": "number",
+        "$value": 1.5,
+        "$description": "Normal line height for body text"
+      },
+      "relaxed": {
+        "$type": "number",
+        "$value": 1.75,
+        "$description": "Relaxed line height for large text"
+      }
+    },
+    "letter-spacing": {
+      "tight": {
+        "$type": "dimension",
+        "$value": "-0.025em",
+        "$description": "Tight letter spacing for large text"
+      },
+      "normal": {
+        "$type": "dimension",
+        "$value": "0",
+        "$description": "Normal letter spacing"
+      },
+      "wide": {
+        "$type": "dimension",
+        "$value": "0.025em",
+        "$description": "Wide letter spacing for small text"
+      }
+    }
+  },
+  "spacing": {
+    "xs": {
+      "$type": "dimension",
+      "$value": "0.25rem",
+      "$description": "Extra small spacing (4px)"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$description": "Small spacing (8px)"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "1rem",
+      "$description": "Medium spacing (16px)"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "$description": "Large spacing (24px)"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "2rem",
+      "$description": "Extra large spacing (32px)"
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": "3rem",
+      "$description": "2X large spacing (48px)"
+    }
+  },
+  "border-radius": {
+    "none": {
+      "$type": "dimension",
+      "$value": "0",
+      "$description": "No border radius"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.125rem",
+      "$description": "Small border radius (2px)"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "0.375rem",
+      "$description": "Medium border radius (6px)"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$description": "Large border radius (8px)"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "0.75rem",
+      "$description": "Extra large border radius (12px)"
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px",
+      "$description": "Full border radius (circular)"
+    }
+  },
+  "shadow": {
+    "sm": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.05)",
+        "offsetX": "0",
+        "offsetY": "1px",
+        "blur": "2px"
+      },
+      "$description": "Small shadow"
+    },
+    "md": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.1)",
+        "offsetX": "0",
+        "offsetY": "4px",
+        "blur": "6px"
+      },
+      "$description": "Medium shadow"
+    },
+    "lg": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.1)",
+        "offsetX": "0",
+        "offsetY": "10px",
+        "blur": "15px"
+      },
+      "$description": "Large shadow"
+    }
+  }
+}

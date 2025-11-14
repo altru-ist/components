@@ -1,0 +1,76 @@
+{
+  "name": "@ist/commonui-components",
+  "version": "1.0.9",
+  "type": "module",
+  "description": "A comprehensive Vue 3 components library with Tailwind CSS and PrimeVue integration",
+  "keywords": [
+    "vue",
+    "components",
+    "ui",
+    "tailwind",
+    "primevue",
+    "design-system"
+  ],
+  "author": "IST",
+  "license": "MIT",
+  "homepage": "https://commonui.ist.com",
+  "repository": {
+    "type": "git",
+    "url": "https://stash.ist.com/scm/long/builderio-components.git",
+    "directory": "components"
+  },
+  "main": "./dist/main.js",
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.js"
+    },
+    "./style.css": "./dist/design-tokens.css",
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "*.css",
+    "*.vue",
+    "./dist/main.css",
+    "./dist/design-tokens.css"
+  ],
+  "scripts": {
+    "build": "vue-tsc -b && vite build --mode production",
+    "build:watch": "vite build --watch",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "primevue": "^4.4.1",
+    "@tailwindcss/vite": "^4.1.11",
+    "tailwindcss": "^4.1.15",
+    "tailwindcss-primeui": "^0.6.1",
+    "tailwind-merge": "^3.3.1",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@testing-library/vue": "^8.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "@vue/tsconfig": "^0.7.0",
+    "jsdom": "^26.0.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-lib-inject-css": "^2.2.2",
+    "vitest": "^2.0.0",
+    "vue-tsc": "^2.2.12"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.17"
+  }
+}

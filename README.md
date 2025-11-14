@@ -1,1 +1,3 @@
-# components
+# Components
+
+Components source code.

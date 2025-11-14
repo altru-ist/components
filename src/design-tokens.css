@@ -1,0 +1,604 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@source "./src";
+
+@theme {
+  --color-primary: #3182ce;
+  --color-primary-50: #ebf8ff;
+  --color-primary-100: #bfdbfe;
+  --color-primary-200: #93c5fd;
+  --color-primary-300: #60a5fa;
+  --color-primary-400: #3b82f6;
+  --color-primary-500: #2563eb;
+  --color-primary-600: #1d4ed8;
+  --color-primary-700: #1e40af;
+  --color-primary-800: #1e3a8a;
+  --color-primary-900: #1e293b;
+  --color-primary-contrast: #ffffff;
+  --color-primary-emphasis: #2c5aa0;
+  --color-primary-emphasis-alt: #2a4e8a;
+}
+
+@utility contain-size {
+  contain: size;
+}
+/**
+ * Design Tokens
+ * Source of truth for design system values
+ *
+ * These tokens are used by our design system wrapper components
+ * to create consistent styling across all components.
+ */
+
+/* Custom styles */
+body {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  background-color: var(--cui-surface-default-white);
+  color: var(--cui-text-header-body);
+}
+
+h1 {
+  @apply text-3xl;
+}
+h2 {
+  @apply text-2xl;
+}
+h3 {
+  @apply text-xl;
+}
+a {
+  @apply text-blue-600 underline;
+}
+
+h1,
+h2,
+h3 {
+  @apply font-bold;
+}
+
+/* Typography Foundation */
+:root {
+  /* Font Families */
+  --font-primary:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Fira Code", "Monaco", "Menlo", "Courier New", monospace;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* ============================================
+     SEMANTIC COLORS
+     ============================================ */
+
+  /* Text Colors */
+  --cui-text-header-body: rgb(51 65 85); /* slate-700 */
+  --cui-text-subtitle-caption: rgb(100 116 139); /* slate-500 */
+  --cui-text-on-dark-default: rgb(255 255 255); /* white */
+  --cui-text-on-light-secondary-action: rgb(64 64 64); /* grayscale-700 */
+
+  /* Text - Success */
+  --cui-text-success-large: rgb(22 163 74); /* green-600 */
+  --cui-text-success-small: rgb(21 128 61); /* green-700 */
+
+  /* Text - Warning */
+  --cui-text-warn-large: rgb(234 88 12); /* orange-600 */
+  --cui-text-warn-small: rgb(194 65 12); /* orange-700 */
+
+  /* Text - Danger */
+  --cui-text-danger-large: rgb(220 38 38); /* red-600 */
+  --cui-text-danger-small: rgb(185 28 28); /* red-700 */
+
+  /* Text - Info */
+  --cui-text-info-large: rgb(2 132 199); /* blue-600 */
+  --cui-text-info-small: rgb(3 105 161); /* blue-700 */
+
+  /* Surface Colors */
+  --cui-surface-default-white: rgb(255 255 255); /* white */
+  --cui-surface-default-gray: rgb(252 252 252); /* custom gray */
+  --cui-surface-default-hover: rgb(241 245 249); /* slate-100 */
+
+  /* Surface - Success */
+  --cui-surface-success: rgb(187 247 208); /* green-200 */
+  --cui-surface-success-light: rgb(220 252 231); /* green-100 */
+  --cui-surface-success-lighter: rgb(240 253 244); /* green-50 */
+
+  /* Surface - Warning */
+  --cui-surface-warn: rgb(254 215 170); /* orange-200 */
+  --cui-surface-warn-light: rgb(255 237 213); /* orange-100 */
+  --cui-surface-warn-lighter: rgb(255 247 237); /* orange-50 */
+
+  /* Surface - Danger */
+  --cui-surface-danger: rgb(254 202 202); /* red-100 */
+  --cui-surface-danger-light: rgb(254 202 202); /* red-100 - same as danger */
+  --cui-surface-danger-lighter: rgb(254 242 242); /* red-50 */
+
+  /* Surface - Info */
+  --cui-surface-info: rgb(186 230 253); /* blue-200 */
+  --cui-surface-info-light: rgb(219 234 254); /* blue-100 */
+  --cui-surface-info-lighter: rgb(239 246 255); /* blue-50 */
+
+  /* Surface - Neutral */
+  --cui-surface-neutral: rgb(245 245 245); /* grayscale-100 */
+  --cui-surface-neutral-light: rgb(
+    245 245 245
+  ); /* grayscale-100 - same as neutral */
+  --cui-surface-neutral-lighter: rgb(255 255 255); /* white */
+
+  /* Surface - Navigation */
+  --cui-surface-navigation: rgb(252 211 77); /* yellow-300 */
+  --cui-surface-navigation-light: rgb(254 240 199); /* yellow-100 */
+
+  /* Surface - Notification */
+  --cui-surface-notification-badge: rgb(194 65 12); /* orange-700 */
+  --cui-surface-notification-pill: rgb(234 88 12); /* orange-600 */
+
+  /* Surface - Actions */
+  --cui-surface-hero-action: rgb(78 51 217); /* purple-700 */
+  --cui-surface-secondary-action: rgb(64 64 64); /* grayscale-700 */
+
+  /* Surface - Gradients */
+  --cui-surface-highlight-gradient-yellow-orange: linear-gradient(
+    126deg,
+    #fef5db 0.81%,
+    #ffdfdf 100%
+  );
+
+  /* Border Colors */
+  --cui-border-neutral: rgb(203 213 225); /* slate-300 */
+  --cui-border-neutral-subtle: rgb(226 232 240); /* slate-200 */
+  --cui-border-focus: rgb(30 41 59); /* slate-800 */
+
+  /* Documentation UI Colors */
+  --cui-text-muted: rgb(113 128 150); /* slate-500 - for secondary text */
+  --cui-text-interactive: rgb(49 130 206); /* blue-600 - for links/tabs */
+  --cui-text-code: rgb(55 65 81); /* gray-700 - for code snippets */
+  --cui-surface-elevated: rgb(255 255 255); /* white - for cards/panels */
+  --cui-surface-subtle: rgb(
+    247 250 252
+  ); /* slate-50 - for subtle backgrounds */
+  --cui-surface-code: rgb(248 250 252); /* slate-50 - for code backgrounds */
+  --cui-border-subtle: rgb(226 232 240); /* slate-200 - for subtle borders */
+
+  /* Status indicators for playgrounds */
+  --cui-indicator-purple: rgb(124 58 237); /* purple-600 - for status */
+  --cui-indicator-green: rgb(5 150 105); /* emerald-600 - for success */
+  --cui-indicator-gray: rgb(75 85 99); /* gray-600 - for neutral */
+
+  /* Border - Success */
+  --cui-border-success: rgb(134 239 172); /* green-300 */
+
+  /* Border - Warning */
+  --cui-border-warn: rgb(253 186 116); /* orange-300 */
+
+  /* Border - Danger */
+  --cui-border-danger: rgb(
+    220 38 38
+  ); /* red-600 - proper red for error states */
+
+  /* Border - Info */
+  --cui-border-info: rgb(125 211 252); /* blue-300 */
+
+  /* Background Colors */
+  --cui-background-dashboard: rgb(252 252 252); /* custom gray */
+  --cui-background-main-menu: rgb(252 252 252); /* custom gray */
+
+  /* Table Colors */
+  --cui-table-zebra-stripe: rgb(248 250 252); /* slate-50 */
+
+  /* Button Override Colors */
+  --cui-button-hero-rest: rgb(78 51 217); /* purple-700 */
+  --cui-button-hero-hover: rgb(64 42 179); /* purple-800 */
+  --cui-button-hero-active: rgb(51 34 140); /* purple-900 */
+
+  --cui-button-primary-rest: rgb(38 38 38); /* grayscale-800 */
+  --cui-button-primary-hover: rgb(23 23 23); /* grayscale-900 */
+  --cui-button-primary-active: rgb(10 10 10); /* grayscale-950 */
+
+  --cui-button-outline-border: rgb(38 38 38); /* grayscale-800 */
+  --cui-button-outline-hover-bg: rgba(
+    10 10 10 / 0.05
+  ); /* grayscale-950 with 5% opacity */
+  --cui-button-outline-active-bg: rgba(
+    10 10 10 / 0.1
+  ); /* grayscale-950 with 10% opacity */
+
+  /* Hover Shades */
+  --cui-hover-button-on-dark: rgba(
+    10 10 10 / 0.15
+  ); /* grayscale-950 with 15% opacity */
+  --cui-hover-button-on-dark-active: rgba(
+    10 10 10 / 0.35
+  ); /* grayscale-950 with 35% opacity */
+  --cui-hover-button-on-light: rgba(
+    10 10 10 / 0.05
+  ); /* grayscale-950 with 5% opacity */
+  --cui-hover-button-on-light-active: rgba(
+    10 10 10 / 0.1
+  ); /* grayscale-950 with 10% opacity */
+
+  /* ============================================
+     DESIGN SYSTEM WRAPPER TOKENS
+     For MyButton, MyBadge and other DS components
+     ============================================ */
+
+  /* Button Sizing */
+  --ds-button-padding-sm: 0.5rem 0.75rem; /* 8px 12px */
+  --ds-button-padding-md: 0.75rem 1rem; /* 12px 16px */
+  --ds-button-padding-lg: 1rem 1.5rem; /* 16px 24px */
+  --ds-button-height-sm: 2rem; /* 32px */
+  --ds-button-height-md: 2.5rem; /* 40px */
+  --ds-button-height-lg: 3rem; /* 48px */
+  --ds-button-font-size-sm: 0.875rem; /* 14px */
+  --ds-button-font-size-md: 1rem; /* 16px */
+  --ds-button-font-size-lg: 1.125rem; /* 18px */
+
+  /* Badge Sizing */
+  --ds-badge-padding-sm: 0.125rem 0.375rem; /* 2px 6px */
+  --ds-badge-padding-md: 0.25rem 0.5rem; /* 4px 8px */
+  --ds-badge-padding-lg: 0.375rem 0.75rem; /* 6px 12px */
+  --ds-badge-font-size-sm: 0.75rem; /* 12px */
+  --ds-badge-font-size-md: 0.875rem; /* 14px */
+  --ds-badge-font-size-lg: 1rem; /* 16px */
+  --ds-badge-gap-from-text: 0.5rem; /* 8px gap from button text */
+
+  /* Border Radius Scale */
+  --ds-radius-none: 0;
+  --ds-radius-sm: 0.25rem; /* 4px */
+  --ds-radius-md: 0.375rem; /* 6px */
+  --ds-radius-lg: 0.5rem; /* 8px */
+  --ds-radius-xl: 0.75rem; /* 12px */
+  --ds-radius-full: 9999px; /* fully rounded */
+
+  /* Spacing Scale */
+  --ds-space-xs: 0.25rem; /* 4px */
+  --ds-space-sm: 0.5rem; /* 8px */
+  --ds-space-md: 1rem; /* 16px */
+  --ds-space-lg: 1.5rem; /* 24px */
+  --ds-space-xl: 2rem; /* 32px */
+  --ds-space-2xl: 3rem; /* 48px */
+
+  /* Shadow Scale */
+  --ds-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ds-shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --ds-shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --ds-shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Transition Timing */
+  --ds-transition-fast: 150ms ease;
+  --ds-transition-normal: 200ms ease;
+  --ds-transition-slow: 300ms ease;
+
+  /* Focus Ring */
+  --ds-focus-ring: 0 0 0 2px var(--cui-border-focus);
+  --ds-focus-ring-offset: 2px;
+}
+
+/* primevue */
+:root {
+  --p-primary-50: #e8edee;
+  --p-primary-100: #c5d1d5;
+  --p-primary-200: #a2b5bb;
+  --p-primary-300: #7f99a2;
+  --p-primary-400: #5d7e88;
+  --p-primary-500: #3a626f;
+  --p-primary-600: #174655;
+  --p-primary-700: #143c48;
+  --p-primary-800: #10313b;
+  --p-primary-900: #0d272f;
+  --p-primary-950: #0a1f25;
+  --p-surface-0: #fff;
+  --p-surface-50: #fafafa;
+  --p-surface-100: #f4f4f5;
+  --p-surface-200: #e4e4e7;
+  --p-surface-300: #d4d4d8;
+  --p-surface-400: #a1a1aa;
+  --p-surface-500: #71717a;
+  --p-surface-600: #52525b;
+  --p-surface-700: #3f3f46;
+  --p-surface-800: #27272a;
+  --p-surface-900: #18181b;
+  --p-surface-950: #09090b;
+  --p-content-border-radius: 6px;
+  --p-primary-color: var(--p-primary-500);
+  --p-primary-contrast-color: var(--p-surface-0);
+  --p-primary-hover-color: var(--p-primary-600);
+  --p-primary-active-color: var(--p-primary-700);
+  --p-content-border-color: var(--p-surface-200);
+  --p-content-hover-background: var(--p-surface-100);
+  --p-content-hover-color: var(--p-surface-800);
+  --p-highlight-background: var(--p-primary-50);
+  --p-highlight-color: var(--p-primary-700);
+  --p-highlight-focus-background: var(--p-primary-100);
+  --p-highlight-focus-color: var(--p-primary-800);
+  --p-text-color: var(--p-surface-700);
+  --p-text-hover-color: var(--p-surface-800);
+  --p-text-muted-color: var(--p-surface-500);
+  --p-text-hover-muted-color: var(--p-surface-600);
+}
+
+/* ============================================
+   DARK MODE OVERRIDES
+   ============================================ */
+
+[data-theme="dark"] {
+  /* Text Colors - Dark Mode */
+  --cui-text-header-body: rgb(241 245 249); /* slate-100 */
+  --cui-text-subtitle-caption: rgb(156 163 175); /* gray-400 */
+  --cui-text-on-dark-default: rgb(255 255 255); /* white - stays the same */
+  --cui-text-on-light-secondary-action: rgb(229 231 235); /* gray-200 */
+
+  /* Text - Success (adjusted for dark backgrounds) */
+  --cui-text-success-large: rgb(34 197 94); /* green-500 */
+  --cui-text-success-small: rgb(22 163 74); /* green-600 */
+
+  /* Text - Warning (adjusted for dark backgrounds) */
+  --cui-text-warn-large: rgb(251 146 60); /* orange-400 */
+  --cui-text-warn-small: rgb(234 88 12); /* orange-600 */
+
+  /* Text - Danger (adjusted for dark backgrounds) */
+  --cui-text-danger-large: rgb(248 113 113); /* red-400 */
+  --cui-text-danger-small: rgb(220 38 38); /* red-600 */
+
+  /* Text - Info (adjusted for dark backgrounds) */
+  --cui-text-info-large: rgb(96 165 250); /* blue-400 */
+  --cui-text-info-small: rgb(59 130 246); /* blue-500 */
+
+  /* Surface Colors - Dark Mode */
+  --cui-surface-default-white: rgb(17 24 39); /* gray-900 */
+  --cui-surface-default-gray: rgb(31 41 55); /* gray-800 */
+  --cui-surface-default-hover: rgb(55 65 81); /* gray-700 */
+
+  /* Surface - Success (darker variants) */
+  --cui-surface-success: rgb(22 101 52); /* green-800 */
+  --cui-surface-success-light: rgb(20 83 45); /* green-900 */
+  --cui-surface-success-lighter: rgb(5 46 22); /* green-950 */
+
+  /* Surface - Warning (darker variants) */
+  --cui-surface-warn: rgb(154 52 18); /* orange-800 */
+  --cui-surface-warn-light: rgb(124 45 18); /* orange-900 */
+  --cui-surface-warn-lighter: rgb(67 20 7); /* orange-950 */
+
+  /* Surface - Danger (darker variants) */
+  --cui-surface-danger: rgb(153 27 27); /* red-800 */
+  --cui-surface-danger-light: rgb(127 29 29); /* red-900 */
+  --cui-surface-danger-lighter: rgb(69 10 10); /* red-950 */
+
+  /* Surface - Info (darker variants) */
+  --cui-surface-info: rgb(30 64 175); /* blue-800 */
+  --cui-surface-info-light: rgb(30 58 138); /* blue-900 */
+  --cui-surface-info-lighter: rgb(23 37 84); /* blue-950 */
+
+  /* Surface - Neutral (darker variants) */
+  --cui-surface-neutral: rgb(55 65 81); /* gray-700 */
+  --cui-surface-neutral-light: rgb(75 85 99); /* gray-600 */
+  --cui-surface-neutral-lighter: rgb(31 41 55); /* gray-800 */
+
+  /* Surface - Navigation (adjusted for dark) */
+  --cui-surface-navigation: rgb(180 83 9); /* yellow-700 */
+  --cui-surface-navigation-light: rgb(146 64 14); /* yellow-800 */
+
+  /* Surface - Notification (stays vibrant) */
+  --cui-surface-notification-badge: rgb(
+    194 65 12
+  ); /* orange-700 - keep vibrant */
+  --cui-surface-notification-pill: rgb(
+    251 146 60
+  ); /* orange-400 - lighter for dark bg */
+
+  /* Surface - Actions */
+  --cui-surface-hero-action: rgb(
+    109 40 217
+  ); /* purple-600 - slightly lighter */
+  --cui-surface-secondary-action: rgb(156 163 175); /* gray-400 */
+
+  /* Surface - Gradients (darker variants for dark mode) */
+  --cui-surface-highlight-gradient-yellow-orange: linear-gradient(
+    126deg,
+    #3f2f1f 0.81%,
+    #4a2c2a 100%
+  );
+
+  /* Border Colors - Dark Mode */
+  --cui-border-neutral: rgb(75 85 99); /* gray-600 */
+  --cui-border-neutral-subtle: rgb(55 65 81); /* gray-700 */
+  --cui-border-focus: rgb(203 213 225); /* slate-300 - lighter for dark bg */
+
+  /* Documentation UI Colors - Dark Mode */
+  --cui-text-muted: rgb(156 163 175); /* gray-400 */
+  --cui-text-interactive: rgb(96 165 250); /* blue-400 */
+  --cui-text-code: rgb(229 231 235); /* gray-200 */
+  --cui-surface-elevated: rgb(31 41 55); /* gray-800 */
+  --cui-surface-subtle: rgb(17 24 39); /* gray-900 */
+  --cui-surface-code: rgb(31 41 55); /* gray-800 */
+  --cui-border-subtle: rgb(55 65 81); /* gray-700 */
+
+  /* Status indicators for playgrounds - adjusted */
+  --cui-indicator-purple: rgb(147 51 234); /* purple-500 */
+  --cui-indicator-green: rgb(34 197 94); /* emerald-500 */
+  --cui-indicator-gray: rgb(156 163 175); /* gray-400 */
+
+  /* Border - Success (darker) */
+  --cui-border-success: rgb(34 197 94); /* green-500 */
+
+  /* Border - Warning (darker) */
+  --cui-border-warn: rgb(251 146 60); /* orange-400 */
+
+  /* Border - Danger (darker) */
+  --cui-border-danger: rgb(248 113 113); /* red-400 */
+
+  /* Border - Info (darker) */
+  --cui-border-info: rgb(96 165 250); /* blue-400 */
+
+  /* Background Colors - Dark Mode */
+  --cui-background-dashboard: rgb(17 24 39); /* gray-900 */
+  --cui-background-main-menu: rgb(31 41 55); /* gray-800 */
+
+  /* Table Colors - Dark Mode */
+  --cui-table-zebra-stripe: rgb(55 65 81); /* gray-700 */
+
+  /* Button Override Colors - Dark Mode */
+  --cui-button-hero-rest: rgb(109 40 217); /* purple-600 - slightly lighter */
+  --cui-button-hero-hover: rgb(124 58 237); /* purple-500 */
+  --cui-button-hero-active: rgb(147 51 234); /* purple-500 */
+
+  --cui-button-primary-rest: rgb(229 231 235); /* gray-200 */
+  --cui-button-primary-hover: rgb(243 244 246); /* gray-100 */
+  --cui-button-primary-active: rgb(255 255 255); /* white */
+
+  --cui-button-outline-border: rgb(229 231 235); /* gray-200 */
+  --cui-button-outline-hover-bg: rgba(
+    255 255 255 / 0.05
+  ); /* white with 5% opacity */
+  --cui-button-outline-active-bg: rgba(
+    255 255 255 / 0.1
+  ); /* white with 10% opacity */
+
+  /* Hover Shades - Dark Mode */
+  --cui-hover-button-on-dark: rgba(
+    255 255 255 / 0.05
+  ); /* white with 5% opacity */
+  --cui-hover-button-on-dark-active: rgba(
+    255 255 255 / 0.1
+  ); /* white with 10% opacity */
+  --cui-hover-button-on-light: rgba(
+    255 255 255 / 0.15
+  ); /* white with 15% opacity */
+  --cui-hover-button-on-light-active: rgba(
+    255 255 255 / 0.25
+  ); /* white with 25% opacity */
+
+  /* Shadow Scale - Dark Mode (more subtle) */
+  --ds-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --ds-shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --ds-shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --ds-shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Typography Classes */
+.font-primary {
+  font-family: var(--font-primary);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Headings */
+.heading-1 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.heading-2 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.heading-3 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+}
+
+.heading-4 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+}
+
+.heading-5 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+}
+
+.heading-6 {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+}
+
+/* Body Text */
+.body-large {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+}
+
+.body-base {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+.body-small {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+/* Caption */
+.caption {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Code */
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
