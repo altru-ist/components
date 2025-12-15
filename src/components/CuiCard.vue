@@ -155,7 +155,7 @@ import VoltCard from "../volt/VoltCard.vue";
 import CuiButton from "./CuiButton.vue";
 
 // Design System API
-interface Props {
+export interface CuiCardProps {
   /** Visual variant of the card */
   variant?: "default" | "custom";
   /** Card title (default variant only) */
@@ -186,7 +186,7 @@ interface Props {
   gradientVariant?: "yellow-orange";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiCardProps>(), {
   variant: "default",
   imagePosition: "top",
   interactive: false,

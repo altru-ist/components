@@ -3,6 +3,7 @@
     :id="id"
     :label="label"
     :required="required"
+    :readonly="readonly"
     :error="error"
     :invalid="invalid"
     :help-text="helpText"
@@ -48,13 +49,14 @@
  * for consistent styling and accessibility features.
  */
 
-import Textarea, { type TextareaPassThroughOptions } from "primevue/textarea";
+import Textarea from "primevue/textarea";
 import { computed } from "vue";
+import { useInputTheme } from "../composables/useInputTheme";
 import { ptViewMerge } from "../volt/utils";
 import CuiInputWrapper from "./CuiInputWrapper.vue";
 
 // Component API
-interface Props {
+export interface CuiTextAreaProps {
   /** The textarea value (for v-model) */
   modelValue?: string;
   /** Unique identifier for the textarea */
@@ -89,7 +91,7 @@ interface Props {
   autoResize?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiTextAreaProps>(), {
   size: "medium",
   disabled: false,
   readonly: false,
@@ -150,77 +152,13 @@ const inputContainerClasses = computed(() => {
 });
 
 /**
- * TextArea theme configuration using our design tokens
- * Following the same pattern as TextInput component
+ * TextArea theme configuration using shared input theme composable
  */
-const textAreaTheme = computed<TextareaPassThroughOptions>(() => {
-  // Base styles that apply to all textareas
-  const baseStyles = [
-    // Layout
-    "w-full",
-    "font-[var(--font-primary)]",
-    "border border-solid",
-    "transition-all duration-[var(--ds-transition-normal)]",
-    "focus:outline-none",
-    "focus:ring-2",
-    "focus:ring-[var(--cui-border-focus)]",
-    "focus:ring-offset-2",
-    "resize-y", // Allow vertical resizing unless autoResize is enabled
-
-    // Hover state
-    "hover:border-[var(--cui-border-focus)]",
-
-    // Disabled state
-    "disabled:opacity-60 disabled:cursor-not-allowed",
-    "disabled:hover:border-[var(--cui-border-neutral)]", // Prevent hover on disabled
-    "disabled:resize-none", // Prevent resizing when disabled
-  ];
-
-  // Auto-resize specific styles
-  if (props.autoResize) {
-    baseStyles.push("resize-none"); // Disable manual resize when auto-resize is on
-  }
-
-  // Size-specific styles using design tokens
-  const sizeStyles = {
-    medium: [
-      "min-h-[5rem]", // Minimum height for 4 rows at medium size
-      "px-3",
-      "py-2",
-      "text-sm", // 14px
-      "rounded-[var(--ds-radius-md)]",
-      "leading-5", // 20px line height
-    ],
-    large: [
-      "min-h-[6rem]", // Minimum height for 4 rows at large size
-      "px-4",
-      "py-3",
-      "text-base", // 16px
-      "rounded-[var(--ds-radius-md)]",
-      "leading-6", // 24px line height
-    ],
-  };
-
-  // Default styles using semantic color tokens
-  const defaultStyles = [
-    "bg-[var(--cui-surface-default-white)]",
-    "border-[var(--cui-border-neutral)]",
-    "text-[var(--cui-text-header-body)]",
-    "placeholder:text-[var(--cui-text-subtitle-caption)]",
-  ];
-
-  // State-specific styles
-  // Note: Error state styling is handled by InputWrapper via slot props
-  const stateStyles: string[] = [];
-
-  return {
-    root: [
-      ...baseStyles,
-      ...sizeStyles[props.size],
-      ...defaultStyles,
-      ...stateStyles,
-    ].join(" "),
-  };
+const textAreaTheme = useInputTheme({
+  size: () => props.size,
+  readonly: () => props.readonly,
+  isTextarea: true,
+  autoResize: () => props.autoResize,
 });
 </script>
 

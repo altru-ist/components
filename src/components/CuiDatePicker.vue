@@ -18,7 +18,7 @@ type DateFormatOptions = {
   year?: "2-digit" | "numeric";
 };
 
-type DatePickerProps = {
+export interface CuiDatePickerProps {
   /**
    * Help text displayed below the date picker field
    * Provides additional context or instructions to the user
@@ -30,6 +30,12 @@ type DatePickerProps = {
    * When disabled, user cannot interact with the component
    */
   disabled?: boolean;
+
+  /**
+   * Whether the date picker is readonly
+   * When readonly, user can view but not modify the value
+   */
+  readonly?: boolean;
 
   /**
    * Unique identifier for the date picker
@@ -152,11 +158,12 @@ type DatePickerProps = {
    * Required for WCAG compliance
    */
   wcagLabel: string;
-};
+}
 
-const props = withDefaults(defineProps<DatePickerProps>(), {
+const props = withDefaults(defineProps<CuiDatePickerProps>(), {
   assistiveText: "",
   disabled: false,
+  readonly: false,
   formatOptions: () => ({}),
   inline: false,
   label: "",
@@ -172,7 +179,7 @@ const props = withDefaults(defineProps<DatePickerProps>(), {
   showInstructions: false,
 });
 
-const model = defineModel<DatePickerProps["modelValue"]>();
+const model = defineModel<CuiDatePickerProps["modelValue"]>();
 
 // Define slots with JSDoc documentation
 defineSlots<{
@@ -286,6 +293,7 @@ defineExpose({
     :id="id"
     :label="!inline ? label : undefined"
     :required="required"
+    :readonly="readonly"
     :disabled="disabled"
     :error="
       hasValidated && !isValidDate && model ? validationFailText : undefined

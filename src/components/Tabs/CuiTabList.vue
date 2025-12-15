@@ -8,12 +8,12 @@
 
 import VoltTabList from "../../volt/VoltTabList.vue";
 
-type CuiTabListProps = {
+export interface CuiTabListProps {
   /**
    * @description Describes the content for screen readers.
    */
   wcagLabel?: string;
-};
+}
 
 defineProps<CuiTabListProps>();
 

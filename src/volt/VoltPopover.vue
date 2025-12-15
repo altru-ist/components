@@ -23,8 +23,8 @@ import { ref } from "vue";
 import { ptViewMerge } from "./utils";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface Props extends /* @vue-ignore */ PopoverProps {}
-defineProps<Props>();
+export interface VoltPopoverProps extends /* @vue-ignore */ PopoverProps {}
+defineProps<VoltPopoverProps>();
 
 const theme = ref<PopoverPassThroughOptions>({
   root: `mt-[10px] p-flipped:-mt-[10px] p-flipped:mb-[10px]

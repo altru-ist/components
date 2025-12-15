@@ -9,7 +9,7 @@
 import { getCurrentInstance, ref } from "vue";
 import VoltToggleSwitch from "../volt/VoltToggleSwitch.vue";
 
-type ToggleProps = {
+export interface CuiToggleSwitchProps {
   /**
    * @description Disables the toggle and sets aria-disabled to true.
    */
@@ -39,16 +39,16 @@ type ToggleProps = {
    * @description Describes the content for screen readers.
    */
   wcagLabel?: string;
-};
+}
 
-const props = withDefaults(defineProps<ToggleProps>(), {
+const props = withDefaults(defineProps<CuiToggleSwitchProps>(), {
   disabled: false,
   disabledReason: undefined,
-  label: "This is a toggle",
+  label: "",
   labelPosition: "right",
   wcagLabel: undefined,
 });
-const model = defineModel<ToggleProps["modelValue"]>();
+const model = defineModel<CuiToggleSwitchProps["modelValue"]>();
 
 const toggleRef = ref<HTMLLabelElement | null>(null);
 const id = `toggle-switch-${getCurrentInstance()?.uid}`;

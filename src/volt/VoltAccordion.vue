@@ -30,6 +30,6 @@ defineEmits<{
 }>();
 
 const theme = ref<AccordionPassThroughOptions>({
-  root: ``,
+  root: `w-full`,
 });
 </script>

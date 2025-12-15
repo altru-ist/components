@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full min-h-screen max-h-screen bg-[var(--cui-surface-default)] relative overflow-hidden"
+    class="flex w-full min-h-screen max-h-screen bg-[var(--cui-surface-default-gray)] relative overflow-hidden"
     :class="appClasses"
   >
     <!-- Menu Slot -->
@@ -14,7 +14,9 @@
     </div>
 
     <!-- Main Content Area -->
-    <div class="flex-1 flex-col min-w-0 max-h-screen overflow-auto! cui-app__main">
+    <div
+      class="flex-1 flex-col min-w-0 max-h-screen overflow-auto! cui-app__main"
+    >
       <!-- Header Slot -->
       <slot name="header">
         <!-- Default: No header rendered -->
@@ -22,8 +24,8 @@
 
       <!-- Content Area -->
       <main
-        class="flex-1 w-full mx-auto bg-[var(--cui-surface-default)]"
-        :class="contentPadding"
+        class="flex-1 w-full mx-auto"
+        :class="[contentPadding, contentBackground]"
       >
         <slot>
           <!-- Default content slot -->
@@ -54,6 +56,8 @@ export interface CuiAppContext {
   isMenuCollapsed: Ref<boolean>;
   /** Reactive reference to mobile viewport state */
   isMobile: Ref<boolean>;
+  /** Reactive reference to dashboard mode state */
+  isDashboard: Ref<boolean>;
   /** Computed array of current breadcrumb items */
   breadcrumbItems: ComputedRef<BreadcrumbItem[]>;
   /** Toggle menu between collapsed and expanded states */
@@ -101,19 +105,22 @@ import CuiToast from "./CuiToast.vue";
 import { CuiModalsPortal } from "./modal";
 
 // Types
-export interface Props {
+export interface CuiAppProps {
   /** Initial collapsed state of the menu */
   initialMenuCollapsed?: boolean;
   /** Initial breadcrumb items */
   breadcrumbItems?: BreadcrumbItem[];
   /** Mobile breakpoint in pixels (default: 768) */
   mobileBreakpoint?: number;
+  /** Whether the app is in dashboard mode */
+  dashboard?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiAppProps>(), {
   initialMenuCollapsed: false,
   breadcrumbItems: () => [],
   mobileBreakpoint: 768,
+  dashboard: false,
 });
 
 // Define slots with JSDoc documentation
@@ -162,6 +169,7 @@ const emit = defineEmits<{
 // State variables
 const isMenuCollapsed = ref(props.initialMenuCollapsed);
 const isMobile = ref(false);
+const isDashboard = ref(props.dashboard);
 const internalBreadcrumbs = ref<BreadcrumbItem[]>([...props.breadcrumbItems]);
 
 // Computed properties
@@ -178,6 +186,12 @@ const contentPadding = computed(() => {
   if (!isMobile.value) return "p-6";
   return window.innerWidth < 480 ? "p-3" : "p-4";
 });
+
+const contentBackground = computed(() =>
+  isDashboard.value
+    ? "bg-[var(--cui-surface-default-gray)]"
+    : "bg-[var(--cui-surface-default-white)]"
+);
 
 // Functions
 /**
@@ -269,10 +283,18 @@ watch(
   },
 );
 
+watch(
+  () => props.dashboard,
+  (newValue) => {
+    isDashboard.value = newValue;
+  },
+);
+
 // Provide context to all descendant components
 const appContext: CuiAppContext = {
   isMenuCollapsed,
   isMobile,
+  isDashboard,
   breadcrumbItems,
   toggleMenu,
   closeMenu,
@@ -304,6 +326,7 @@ defineExpose({
   closeMenu,
   isMenuCollapsed,
   isMobile,
+  isDashboard,
 });
 </script>
 

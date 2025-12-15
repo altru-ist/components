@@ -30,9 +30,14 @@ type ColumnDefinition = {
    * @description CSS style to apply to the column
    */
   style?: string;
+
+  /**
+   * @description Whether this column displays the built-in expand/collapse button
+   */
+  expander?: boolean;
 };
 
-type DataTableProps = {
+export interface CuiDataTableProps {
   /**
    * @description The array of objects to display in the table
    */
@@ -97,9 +102,19 @@ type DataTableProps = {
    * @description Function to determine row class based on data
    */
   rowClass?: (data: any) => string | string[] | object;
-};
 
-const props = withDefaults(defineProps<DataTableProps>(), {
+  /**
+   * @description Unique identifier field for each row. Required for row expansion functionality.
+   */
+  dataKey?: string;
+
+  /**
+   * @description Object tracking expanded rows by dataKey. Use with v-model:expandedRows for two-way binding.
+   */
+  expandedRows?: Record<string, boolean>;
+}
+
+const props = withDefaults(defineProps<CuiDataTableProps>(), {
   value: () => [],
   columns: undefined,
   paginator: false,
@@ -113,6 +128,8 @@ const props = withDefaults(defineProps<DataTableProps>(), {
   rowHover: false,
   loading: false,
   rowClass: undefined,
+  dataKey: undefined,
+  expandedRows: undefined,
 });
 
 defineSlots<{
@@ -140,6 +157,14 @@ defineSlots<{
    * @description Custom loading content
    */
   loading?: void;
+
+  /**
+   * @description Slot for expanded row content. Native PrimeVue expansion slot.
+   * @arg {object} slotProps - The slot properties
+   * @arg {any} slotProps.data - The row data object
+   * @arg {number} slotProps.index - The index of the row
+   */
+  expansion?: (props: { data: any; index: number }) => any;
 }>();
 
 const emit = defineEmits<{
@@ -148,6 +173,12 @@ const emit = defineEmits<{
    * @arg {any | any[]} value - The selected row data. Single object for single selection mode, array of objects for multiple selection mode
    */
   "update:modelValue": [value: any | any[]];
+
+  /**
+   * Emitted when the expanded rows change (for v-model:expandedRows support)
+   * @arg {Record<string, boolean>} value - Object tracking expanded rows by dataKey
+   */
+  "update:expandedRows": [value: Record<string, boolean>];
 
   /**
    * Emitted when a row is selected by the user
@@ -192,6 +223,11 @@ const selectedRows = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
+const expandedRowsModel = computed({
+  get: () => props.expandedRows,
+  set: (value) => emit("update:expandedRows", value as Record<string, boolean>),
+});
+
 function onRowSelect(event: any) {
   emit("rowSelect", event);
 }
@@ -212,6 +248,7 @@ function onSort(event: any) {
 <template>
   <DataTable
     v-model:selection="selectedRows"
+    v-model:expanded-rows="expandedRowsModel"
     :value="value"
     :paginator="paginator"
     :rows="rows"
@@ -220,6 +257,7 @@ function onSort(event: any) {
     :show-gridlines="showGridlines"
     :row-hover="rowHover"
     :loading="loading"
+    :data-key="dataKey"
     @row-select="onRowSelect"
     @row-unselect="onRowUnselect"
     @page="onPage"
@@ -233,6 +271,7 @@ function onSort(event: any) {
         :header="col.header"
         :sortable="col.sortable"
         :style="col.style"
+        :expander="col.expander"
       ></Column>
     </template>
 
@@ -250,6 +289,10 @@ function onSort(event: any) {
 
     <template v-if="$slots.loading" #loading>
       <slot name="loading"></slot>
+    </template>
+
+    <template v-if="$slots.expansion" #expansion="slotProps">
+      <slot name="expansion" :data="slotProps.data" :index="slotProps.index"></slot>
     </template>
 
     <slot></slot>

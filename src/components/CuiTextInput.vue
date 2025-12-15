@@ -3,6 +3,7 @@
     :id="id"
     :label="label"
     :required="required"
+    :readonly="readonly"
     :error="error"
     :invalid="invalid"
     :help-text="helpText"
@@ -57,15 +58,14 @@
  * and accessibility. Supports validation, error states, and helper text.
  */
 
-import InputText, {
-  type InputTextPassThroughOptions,
-} from "primevue/inputtext";
+import InputText from "primevue/inputtext";
 import { computed } from "vue";
+import { useInputTheme } from "../composables/useInputTheme";
 import { ptViewMerge } from "../volt/utils";
 import CuiInputWrapper from "./CuiInputWrapper.vue";
 
 // Component API
-interface Props {
+export interface CuiTextInputProps {
   /** The input value (for v-model) */
   modelValue?: string;
   /** Unique identifier for the input */
@@ -98,7 +98,7 @@ interface Props {
   rightIcon?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiTextInputProps>(), {
   size: "medium",
   disabled: false,
   readonly: false,
@@ -175,70 +175,13 @@ const inputContainerClasses = computed(() => {
 });
 
 /**
- * TextInput theme configuration using our design tokens
- * Following the same pattern as Button component
+ * TextInput theme configuration using shared input theme composable
  */
-const textInputTheme = computed<InputTextPassThroughOptions>(() => {
-  // Base styles that apply to all inputs
-  const baseStyles = [
-    // Layout
-    "w-full",
-    "font-[var(--font-primary)]",
-    "border border-solid",
-    "transition-all duration-[var(--ds-transition-normal)]",
-    "focus:outline-none",
-    "focus:ring-2",
-    "focus:ring-[var(--cui-border-focus)]",
-    "focus:ring-offset-2",
-
-    // Hover state
-    "hover:border-[var(--cui-border-focus)]",
-
-    // Disabled state
-    "disabled:opacity-60 disabled:cursor-not-allowed",
-    "disabled:hover:border-[var(--cui-border-neutral)]", // Prevent hover on disabled
-  ];
-
-  // Size-specific styles using design tokens
-  const sizeStyles = {
-    medium: [
-      "h-10",
-      props.leftIcon ? "pl-10" : "pl-3",
-      props.rightIcon ? "pr-10" : "pr-3",
-      !props.leftIcon && !props.rightIcon ? "px-3" : "",
-      "text-sm", // 14px
-      "rounded-[var(--ds-radius-md)]",
-    ].filter(Boolean),
-    large: [
-      "h-12",
-      props.leftIcon ? "pl-12" : "pl-4",
-      props.rightIcon ? "pr-12" : "pr-4",
-      !props.leftIcon && !props.rightIcon ? "px-4" : "",
-      "text-base", // 16px
-      "rounded-[var(--ds-radius-md)]",
-    ].filter(Boolean),
-  };
-
-  // Default styles using semantic color tokens
-  const defaultStyles = [
-    "bg-[var(--cui-surface-default-white)]",
-    "border-[var(--cui-border-neutral)]",
-    "text-[var(--cui-text-header-body)]",
-    "placeholder:text-[var(--cui-text-subtitle-caption)]",
-  ];
-
-  // State-specific styles
-  // Note: Error state styling is handled by InputWrapper via slot props
-  const stateStyles: string[] = [];
-
-  return {
-    root: [
-      ...baseStyles,
-      ...sizeStyles[props.size],
-      ...defaultStyles,
-      ...stateStyles,
-    ].join(" "),
-  };
+const textInputTheme = useInputTheme({
+  size: () => props.size,
+  readonly: () => props.readonly,
+  leftIcon: () => props.leftIcon,
+  rightIcon: () => props.rightIcon,
 });
 </script>
 

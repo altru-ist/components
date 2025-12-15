@@ -8,7 +8,7 @@
 
 import VoltTag from "../volt/VoltTag.vue";
 
-type TagProps = {
+export interface CuiTagProps {
   /**
    * @description The value to display in the tag
    */
@@ -23,9 +23,9 @@ type TagProps = {
    * @description Icon to display in the tag (Material Symbols icon name)
    */
   icon?: string;
-};
+}
 
-const props = withDefaults(defineProps<TagProps>(), {
+const props = withDefaults(defineProps<CuiTagProps>(), {
   value: undefined,
   icon: undefined,
 });

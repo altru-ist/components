@@ -2,6 +2,7 @@
   <CuiInputWrapper
     :label="label"
     :required="required"
+    :readonly="readonly"
     :error="error"
     :invalid="invalid"
     :help-text="helpText"
@@ -61,7 +62,7 @@ import VoltSelectButton from "../volt/VoltSelectButton.vue";
 import CuiInputWrapper from "./CuiInputWrapper.vue";
 
 // Component API
-interface Props {
+export interface CuiSelectButtonProps {
   /** The select button value (for v-model) */
   modelValue?: any;
   /** Array of options to select from */
@@ -76,6 +77,8 @@ interface Props {
   size?: "medium" | "large";
   /** Whether the select button is disabled */
   disabled?: boolean;
+  /** Whether the select button is readonly */
+  readonly?: boolean;
   /** Whether the select button has an error state */
   invalid?: boolean;
   /** Error message for validation feedback */
@@ -90,9 +93,10 @@ interface Props {
   showInstructions?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiSelectButtonProps>(), {
   size: "medium",
   disabled: false,
+  readonly: false,
   invalid: false,
   options: () => [],
   optionLabel: "label",

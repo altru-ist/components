@@ -80,7 +80,7 @@ import { ref } from "vue"; // Additional Vue imports if needed
  */
 
 // 3. Types/Interfaces
-type ComponentProps = {
+export interface CuiComponentProps {
   /**
    * @description Prop description
    */
@@ -88,7 +88,7 @@ type ComponentProps = {
 };
 
 // 4. Define props
-const props = withDefaults(defineProps<ComponentProps>(), {
+const props = withDefaults(defineProps<CuiComponentProps>(), {
   propName: defaultValue,
 });
 
@@ -145,10 +145,22 @@ onMounted(() => {
 
 All props must have:
 
-- TypeScript type definition
+- TypeScript type definition exported as `export interface CuiComponentProps`
 - JSDoc `@description` comment
 - Appropriate default value in `withDefaults()`
 - Clear, concise description of purpose and behavior
+- **Always export the props interface** so it can be imported by library consumers
+
+**Example**:
+
+```typescript
+export interface CuiMessageProps {
+  /**
+   * @description Severity level that determines the message color scheme
+   */
+  severity?: "success" | "info" | "warn" | "error";
+}
+```
 
 #### 3. Event Documentation
 
@@ -238,27 +250,36 @@ Use this pattern to forward all slots to Volt components:
 1. Ensure corresponding Volt component exists in `src/volt/`
 2. Create component file in `src/components/` following naming convention
 3. Implement wrapper following the pattern guidelines above
-4. Add imports and exports to `src/main.ts`
-5. Run linter and fix any errors
-6. Run `npm run extract-vue-docs` to generate documentation
-7. Test component functionality
+4. **Export props interface** from component file (`export interface CuiComponentProps`)
+5. Add imports and exports to `src/main.ts` (component and props type)
+6. Run linter and fix any errors
+7. Run `npm run extract-vue-docs` to generate documentation
+8. Test component functionality
 
 ### 2. Adding to Main Exports
 
 Update `src/main.ts` with proper imports and exports:
 
 ```typescript
-// Import
+// Import component
 import ComponentName from "./components/ComponentName.vue";
 
-// Export in three forms:
+// Export component in three forms:
 export {
   ComponentName, // Original name
   ComponentName as CuiComponentName, // Cui prefix alias
   // For Cui-prefixed components, also export without prefix
   CuiComponentName as ComponentName, // For CuiSelect -> Select
 };
+
+// Export component props types (always export properties)
+export type { CuiComponentProps } from "./components/ComponentName.vue";
 ```
+
+**Important**: Always export component props interfaces/types from both:
+
+1. The component file itself (using `export interface CuiComponentProps`)
+2. The main entry point (`src/main.ts`) for library consumers
 
 ### 3. Documentation Generation
 
@@ -284,6 +305,8 @@ Before completing a component:
 - ✅ No linter errors
 - ✅ Full type safety with TypeScript
 - ✅ Proper type definitions for props, events, and slots
+- ✅ Props interface exported from component file (`export interface CuiComponentProps`)
+- ✅ Props type exported from `main.ts` for library consumers
 
 **Documentation Standards**:
 
@@ -387,6 +410,8 @@ Always include proper ARIA attributes:
 ### TypeScript
 
 - Use interface extension pattern for Volt component props: `interface Props extends VoltComponentProps {}`
+- **Always export component props interfaces** as `export interface CuiComponentProps` for library consumers
+- Export props types from `main.ts` so they can be imported: `export type { CuiComponentProps } from "./components/ComponentName.vue"`
 - Prefer explicit types over `any`
 - Use generic types for reusable patterns
 - Leverage TypeScript utility types (`Omit`, `Pick`, `Partial`, etc.)

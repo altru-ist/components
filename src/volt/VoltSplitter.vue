@@ -25,8 +25,7 @@ interface Props extends /* @vue-ignore */ SplitterProps {}
 defineProps<Props>();
 
 const theme = ref<SplitterPassThroughOptions>({
-  root: `flex flex-wrap
-        border border-surface-200 dark:border-surface-700 rounded-md
+  root: `flex flex-wrap        
         bg-surface-0 dark:bg-surface-900
         text-surface-700 dark:text-surface-0
         p-vertical:flex-col p-nested:grow p-nested:border-none

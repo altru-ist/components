@@ -21,7 +21,7 @@ type Tabs = Array<{
 
 import CuiTabPanels from "./CuiTabPanels.vue";
 
-type TabsProps = {
+export interface CuiTabsProps {
   /**
    * @description ID of the selected tab.
    */
@@ -41,13 +41,13 @@ type TabsProps = {
    * @description Whether to show tab panels (content areas). Defaults to false for tab-only navigation.
    */
   showPanels?: boolean;
-};
+}
 
-const props = withDefaults(defineProps<TabsProps>(), {
+const props = withDefaults(defineProps<CuiTabsProps>(), {
   showPanels: false,
 });
 
-const model = defineModel<TabsProps["modelValue"]>();
+const model = defineModel<CuiTabsProps["modelValue"]>();
 
 defineSlots<{
   /**

@@ -8,7 +8,7 @@
 
 import VoltChip from "../volt/VoltChip.vue";
 
-type ChipProps = {
+export interface CuiChipProps {
   /**
    * @description The text label to display in the chip
    */
@@ -38,9 +38,9 @@ type ChipProps = {
    * @description The selected state of the chip (for v-model support)
    */
   modelValue?: boolean;
-};
+}
 
-const props = withDefaults(defineProps<ChipProps>(), {
+const props = withDefaults(defineProps<CuiChipProps>(), {
   label: undefined,
   image: undefined,
   icon: undefined,

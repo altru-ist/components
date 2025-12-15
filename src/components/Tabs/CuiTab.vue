@@ -8,7 +8,7 @@
 
 import VoltTab from "../../volt/VoltTab.vue";
 
-type CuiTabProps = {
+export interface CuiTabProps {
   /**
    * @description Value to identify the tab, should match with the corresponding tab panel's value.
    */
@@ -23,7 +23,7 @@ type CuiTabProps = {
    * @description Whether the tab is disabled.
    */
   disabled?: boolean;
-};
+}
 
 defineProps<CuiTabProps>();
 

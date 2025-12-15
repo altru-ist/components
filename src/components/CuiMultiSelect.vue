@@ -25,7 +25,7 @@ export type DropdownListItem = {
  */
 export type DropdownListItems = DropdownListItem[];
 
-type MultiSelectProps = {
+export interface CuiMultiSelectProps {
   /**
    * @description Text to be displayed when no list item is chosen.
    */
@@ -35,6 +35,11 @@ type MultiSelectProps = {
    * @description Disables the selector and sets attribute _aria-disabled_ to true.
    */
   disabled?: boolean;
+
+  /**
+   * @description Whether the multi-select is readonly
+   */
+  readonly?: boolean;
 
   /**
    * @description The ID of the component.
@@ -112,10 +117,11 @@ type MultiSelectProps = {
    * @description Whether to show default instructions for screen readers
    */
   showInstructions?: boolean;
-};
+}
 
-const props = withDefaults(defineProps<MultiSelectProps>(), {
+const props = withDefaults(defineProps<CuiMultiSelectProps>(), {
   disabled: false,
+  readonly: false,
   id: undefined,
   inline: true,
   label: undefined,
@@ -180,6 +186,7 @@ const selectClasses = computed(() => {
   <CuiInputWrapper
     :label="label"
     :required="required"
+    :readonly="readonly"
     :error="error"
     :help-text="helpText"
     :disabled="disabled"

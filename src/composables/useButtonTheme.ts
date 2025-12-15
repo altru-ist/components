@@ -6,7 +6,9 @@ import { computed, unref, type ComputedRef, type MaybeRefOrGetter } from "vue";
  */
 export interface ButtonThemeProps {
   /** Visual variant of the button */
-  variant?: MaybeRefOrGetter<"hero" | "primary" | "secondary-outline" | "secondary-text">;
+  variant?: MaybeRefOrGetter<
+    "hero" | "primary" | "secondary-outline" | "secondary-text"
+  >;
   /** Size of the button */
   size?: MaybeRefOrGetter<"small" | "medium" | "large">;
   /** Whether the button should have a floating shadow */
@@ -17,13 +19,13 @@ export interface ButtonThemeProps {
 
 /**
  * Composable for generating button theme styles
- * 
+ *
  * This composable encapsulates the button styling logic, making it reusable
- * across different button-related components (CuiButton, CuiBtnDropdown, etc.)
- * 
+ * across different button-related components (CuiButton, CuiButtonDropdown, etc.)
+ *
  * @param props - Button theme configuration properties (supports refs and computed values)
  * @returns Computed ButtonPassThroughOptions for PrimeVue button styling
- * 
+ *
  * @example
  * ```ts
  * const buttonTheme = useButtonTheme({
@@ -35,14 +37,16 @@ export interface ButtonThemeProps {
  * ```
  */
 export function useButtonTheme(
-  props: ButtonThemeProps
+  props: ButtonThemeProps,
 ): ComputedRef<ButtonPassThroughOptions> {
   return computed<ButtonPassThroughOptions>(() => {
     // Helper to unwrap MaybeRefOrGetter - handles refs, getters, and plain values
-    const unwrap = <T>(value: MaybeRefOrGetter<T> | undefined): T | undefined => {
+    const unwrap = <T>(
+      value: MaybeRefOrGetter<T> | undefined,
+    ): T | undefined => {
       if (value === undefined) return undefined;
       // Check if it's a function (getter) first, before calling unref
-      if (typeof value === 'function') {
+      if (typeof value === "function") {
         return (value as () => T)();
       }
       // Otherwise use unref for refs and computed refs
@@ -50,17 +54,16 @@ export function useButtonTheme(
     };
 
     // Unwrap refs/computed/getter values with explicit types and defaults
-    const variant: "hero" | "primary" | "secondary-outline" | "secondary-text" = 
+    const variant: "hero" | "primary" | "secondary-outline" | "secondary-text" =
       unwrap(props.variant) ?? "primary";
-    const size: "small" | "medium" | "large" = 
-      unwrap(props.size) ?? "medium";
+    const size: "small" | "medium" | "large" = unwrap(props.size) ?? "medium";
     const floating: boolean = unwrap(props.floating) ?? false;
     const isIconOnly: boolean = unwrap(props.isIconOnly) ?? false;
 
     // Base styles that apply to all buttons
     const baseStyles = [
       // Layout & Interaction
-      "inline-flex items-center justify-center",
+      "w-full relative inline-flex items-center justify-center",
       "font-medium font-[var(--font-primary)]",
       "border border-solid",
       "cursor-pointer select-none",
@@ -175,9 +178,10 @@ export function useButtonTheme(
       : [];
 
     // Combine all styles - ensure we have valid keys
-    const selectedSizeStyles = sizeStyles[size] || sizeStyles.medium;
-    const selectedVariantStyles = variantStyles[variant] || variantStyles.primary;
-    
+    const selectedSizeStyles = sizeStyles[size] ?? sizeStyles.medium ?? [];
+    const selectedVariantStyles =
+      variantStyles[variant] ?? variantStyles.primary ?? [];
+
     const allStyles = [
       ...baseStyles,
       ...selectedSizeStyles,
@@ -192,4 +196,3 @@ export function useButtonTheme(
     };
   });
 }
-

@@ -8,12 +8,12 @@
 
 import VoltTabPanel from "../../volt/VoltTabPanel.vue";
 
-type CuiTabPanelProps = {
+export interface CuiTabPanelProps {
   /**
    * @description Value to identify the tab panel, should match with the corresponding tab's value.
    */
   value: string | number;
-};
+}
 
 defineProps<CuiTabPanelProps>();
 

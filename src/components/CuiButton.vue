@@ -7,13 +7,20 @@
       :disabled="disabled"
       :loading="loading"
       :aria-label="ariaLabel"
+      :aria-controls="ariaControls || undefined"
+      :aria-haspopup="ariaHaspopup ?? (ariaControls ? true : undefined)"
       v-bind="$attrs"
-      @click="emits('click', $event)"
+      @click="handleClick"
       @focus="emits('focus', $event)"
       @blur="emits('blur', $event)"
     >
       <div class="button-content">
         <!-- Default slot for button content (text) -->
+        <span v-if="icon">
+          <span class="material-symbols-rounded h-full align-middle">{{
+            icon
+          }}</span>
+        </span>
         <slot />
 
         <!-- Badge slot - inline for badge variant, absolute for pill variants -->
@@ -21,9 +28,12 @@
           <slot name="badge" />
         </template>
 
-        <!-- Icon slot - Custom icon template -->
+        <!-- Icon slot - Custom icon template or default from icon prop -->
         <template v-if="hasSlotContent(slots.icon)">
           <slot name="icon" />
+        </template>
+        <template v-else-if="iconRight">
+          <span class="material-symbols-rounded">{{ iconRight }}</span>
         </template>
       </div>
     </VoltButton>
@@ -38,14 +48,20 @@
  * loading states, and badges for notification counts.
  */
 
+// Prevent attrs from being applied to wrapper div - they should only go to VoltButton
+defineOptions({
+  inheritAttrs: false,
+});
+
 import VoltButton from "primevue/button";
-import { computed, provide, watchEffect } from "vue";
+import { computed, inject, provide, watchEffect } from "vue";
+import { useButtonTheme } from "../composables/useButtonTheme";
+import { toggleMenuById } from "../utils/menuRegistry";
 import { hasSlotContent } from "../utils/slotsUtils";
 import { ptViewMerge } from "../volt/utils";
-import { useButtonTheme } from "../composables/useButtonTheme";
 
 // Design System API - Only expose props we want in our public API
-interface Props {
+export interface CuiButtonProps {
   /** Visual variant of the button */
   variant?: "hero" | "primary" | "secondary-outline" | "secondary-text";
   /** Size of the button */
@@ -58,16 +74,34 @@ interface Props {
   iconOnly?: boolean;
   /** Whether the button should have a floating shadow (for floating/overlay contexts) */
   floating?: boolean;
+  /** Material Symbols icon name to display in the icon slot (e.g., "search", "add", "close") */
+  icon?: string;
+  iconRight?: string;
   /** Accessible label for icon-only buttons (required when button contains only icons) */
   ariaLabel?: string;
+  /** Accessible attribute for aria-haspopup - indicates popup type */
+  ariaHaspopup?: boolean | "menu" | "listbox" | "tree" | "grid" | "dialog";
+  /** Accessible attribute for aria-controls */
+  ariaControls?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  variant: "primary",
+const props = withDefaults(defineProps<CuiButtonProps>(), {
   size: "medium",
   disabled: false,
   loading: false,
   floating: false,
+});
+
+// Inject toolbar context to determine default variant
+const isInsideToolbar = inject("isInsideToolbar", false);
+
+// Compute effective variant based on context
+const effectiveVariant = computed(() => {
+  if (props.variant) {
+    return props.variant;
+  }
+  // Default to secondary-outline when inside toolbar, primary otherwise
+  return isInsideToolbar ? "secondary-outline" : "primary";
 });
 
 // Events we want to expose
@@ -172,11 +206,24 @@ provide("isIconOnlyButton", isIconOnly);
 
 // Use button theme composable
 const buttonTheme = useButtonTheme({
-  variant: () => props.variant,
+  variant: () => effectiveVariant.value,
   size: () => props.size,
   floating: () => props.floating,
   isIconOnly,
 });
+
+/**
+ * Handle button click - emits click event and auto-toggles menu if aria-controls is set
+ */
+const handleClick = (event: Event) => {
+  // Always emit the click event
+  emits("click", event);
+
+  // If aria-controls is set, automatically toggle the referenced menu
+  if (props.ariaControls) {
+    toggleMenuById(props.ariaControls, event);
+  }
+};
 
 /**
  * EXTENDING THIS PATTERN:
@@ -212,13 +259,17 @@ const buttonTheme = useButtonTheme({
 
 <style scoped>
 .button-wrapper {
+  display: flex;
   position: relative;
-  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-badge-gap-from-text, 0.5rem);
 }
 
 .button-content {
   display: flex;
   align-items: center;
+  white-space: nowrap;
   gap: var(--ds-badge-gap-from-text, 0.5rem);
 }
 </style>

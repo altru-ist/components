@@ -20,15 +20,21 @@
     <label
       v-if="label"
       :for="computedId"
-      class="block font-normal mb-2 leading-tight"
+      class="block font-normal mx-0 my-1 leading-tight"
       :class="labelClasses"
     >
       {{ label }}
       <span
         v-if="required"
-        class="ml-1 font-medium [color:var(--cui-text-danger-small)]"
+        class="ml-1 font-medium text-(--cui-text-danger-small)"
         aria-label="required"
         >*</span
+      >
+      <span
+        v-if="readonly"
+        class="material-symbols-rounded ml-1 text-[10px] align-text-bottom text-(--cui-text-subtitle-caption)"
+        aria-label="readonly"
+        >lock</span
       >
     </label>
 
@@ -79,13 +85,15 @@
 import { computed, getCurrentInstance } from "vue";
 
 // Component API
-interface Props {
+export interface CuiInputWrapperProps {
   /** Unique identifier for the input */
   id?: string;
   /** Label text for the input */
   label?: string;
   /** Whether the field is required */
   required?: boolean;
+  /** Whether the field is readonly */
+  readonly?: boolean;
   /** Error message for validation feedback */
   error?: string;
   /** Whether the input has an invalid state */
@@ -102,7 +110,7 @@ interface Props {
   showInstructions?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiInputWrapperProps>(), {
   size: "medium",
   disabled: false,
   showInstructions: true,

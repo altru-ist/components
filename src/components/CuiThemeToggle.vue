@@ -56,7 +56,7 @@ import { useTheme } from "../utils/useTheme";
 import CuiButton from "./CuiButton.vue";
 
 // Design System API
-interface Props {
+export interface CuiThemeToggleProps {
   /** Visual variant of the button */
   variant?: "hero" | "primary" | "secondary-outline" | "secondary-text";
   /** Size of the button */
@@ -71,7 +71,7 @@ interface Props {
   ariaLabel?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiThemeToggleProps>(), {
   variant: "secondary-outline",
   size: "medium",
   disabled: false,

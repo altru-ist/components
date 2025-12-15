@@ -10,7 +10,7 @@ import { getCurrentInstance } from "vue";
 import VoltRadioButton from "../volt/VoltRadioButton.vue";
 import CuiCard from "./CuiCard.vue";
 
-type RadioButtonProps = {
+export interface CuiRadioButtonProps {
   /**
    * @description Disables the radio button and sets aria-disabled to true.
    */
@@ -70,16 +70,16 @@ type RadioButtonProps = {
    * @description Describes the content for screen readers.
    */
   wcagLabel: string;
-};
+}
 
-const props = withDefaults(defineProps<RadioButtonProps>(), {
+const props = withDefaults(defineProps<CuiRadioButtonProps>(), {
   disabled: false,
   type: "default",
   subTitle: "",
   inputId: "",
 });
 
-const model = defineModel<RadioButtonProps["modelValue"]>();
+const model = defineModel<CuiRadioButtonProps["modelValue"]>();
 
 defineSlots<{
   /**

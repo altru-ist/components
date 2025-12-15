@@ -23,7 +23,6 @@ export { default as VoltDivider } from "./VoltDivider.vue";
 export { default as VoltFieldset } from "./VoltFieldset.vue";
 export { default as VoltInputNumber } from "./VoltInputNumber.vue";
 export { default as VoltInputText } from "./VoltInputText.vue";
-export { default as VoltMenu } from "./VoltMenu.vue";
 export { default as VoltMessage } from "./VoltMessage.vue";
 export { default as VoltMultiSelect } from "./VoltMultiSelect.vue";
 export { default as VoltOverlayBadge } from "./VoltOverlayBadge.vue";

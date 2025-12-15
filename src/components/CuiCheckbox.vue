@@ -91,7 +91,7 @@ import { computed, ref } from "vue";
 import { ptViewMerge } from "../volt/utils";
 
 // Component API
-interface Props {
+export interface CuiCheckboxProps {
   /** The checkbox value (for v-model) */
   modelValue?: any;
   /** Group label text (appears above the checkbox) */
@@ -122,7 +122,7 @@ interface Props {
   indeterminate?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiCheckboxProps>(), {
   size: "medium",
   disabled: false,
   disabledReason: undefined,

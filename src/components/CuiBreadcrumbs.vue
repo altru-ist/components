@@ -77,14 +77,14 @@ export interface BreadcrumbItem {
 }
 
 // Component API
-interface Props {
+export interface CuiBreadcrumbsProps {
   /** Array of breadcrumb items */
   items: BreadcrumbItem[];
   /** Custom aria-label for navigation */
   ariaLabel?: string;
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<CuiBreadcrumbsProps>(), {
   ariaLabel: "Breadcrumb navigation",
 });
 

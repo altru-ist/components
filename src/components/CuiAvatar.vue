@@ -35,7 +35,7 @@ import CuiBadge from "./CuiBadge.vue";
 const defaultAvatarUrl = "/avatars/avatar-2.png";
 
 // Design System API - Following our established patterns
-interface Props {
+export interface CuiAvatarProps {
   /** Image source URL for the avatar */
   src?: string;
   /** Alt text for accessibility (auto-generated if not provided) */
@@ -52,7 +52,7 @@ interface Props {
   badgeType?: "badge" | "pill-large" | "pill-small";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiAvatarProps>(), {
   size: "md",
   bordered: false,
   interactable: false,

@@ -1,26 +1,50 @@
 <template>
   <div class="relative w-full">
-    <CuiTextInput ref="inputRef" :modelValue="modelValue" :label="label" :placeholder="placeholder" :disabled="disabled"
-      :readonly="readonly" :invalid="invalid" :error="error" :size="size" :left-icon="'search'" v-bind="$attrs"
-      @update:modelValue="handleModelValueUpdate" @input="handleInput" @focus="handleFocus" @blur="handleBlur"
-      @keydown="handleKeydown" />
+    <CuiTextInput
+      ref="inputRef"
+      :modelValue="modelValue"
+      :label="label"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="readonly"
+      :invalid="invalid"
+      :error="error"
+      :size="size"
+      :left-icon="'search'"
+      v-bind="$attrs"
+      @update:modelValue="handleModelValueUpdate"
+      @input="handleInput"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @keydown="handleKeydown"
+    />
 
     <!-- Clear button overlay -->
-    <button v-if="clearable && modelValue"
+    <button
+      v-if="clearable && modelValue"
       class="absolute top-1/2 -translate-y-1/2 text-cui-text-subtitle-caption bg-transparent border-none cursor-pointer z-10 text-xl w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 hover:bg-cui-surface-subtle hover:text-cui-text-header-body disabled:opacity-50 disabled:cursor-not-allowed material-symbols-rounded"
-      :class="label ? 'right-3 top-[calc(50%+0.875rem)]' : 'right-3'" type="button" @click="handleClear"
-      :disabled="disabled">
+      :class="label ? 'right-3 top-[calc(50%+0.875rem)]' : 'right-3'"
+      type="button"
+      @click="handleClear"
+      :disabled="disabled"
+    >
       close
     </button>
 
     <!-- Manual dropdown for suggestions -->
-    <div v-if="showSuggestions && filteredSuggestions.length > 0"
+    <div
+      v-if="showSuggestions && filteredSuggestions.length > 0"
       class="absolute left-0 right-0 z-1000 mt-1 bg-white border border-cui-border-neutral rounded-md shadow-md max-h-48 overflow-auto"
-      :class="label ? 'top-[calc(100%)]' : 'top-full'">
-      <div v-for="(suggestion, index) in filteredSuggestions" :key="index"
+      :class="label ? 'top-[calc(100%)]' : 'top-full'"
+    >
+      <div
+        v-for="(suggestion, index) in filteredSuggestions"
+        :key="index"
         class="px-3 py-2 cursor-pointer text-cui-text-header-body border-none bg-transparent transition-colors duration-200 hover:bg-cui-surface-subtle active:bg-cui-surface-elevated"
-        :class="{ 'suggestion-highlighted': index === highlightedIndex }" @click="selectSuggestion(suggestion)"
-        @mouseenter="highlightedIndex = index">
+        :class="{ 'suggestion-highlighted': index === highlightedIndex }"
+        @click="selectSuggestion(suggestion)"
+        @mouseenter="highlightedIndex = index"
+      >
         {{ suggestion }}
       </div>
     </div>
@@ -39,7 +63,7 @@ import { computed, ref, type ComponentPublicInstance } from "vue";
 import CuiTextInput from "./CuiTextInput.vue";
 
 // Component API
-interface Props {
+export interface CuiSearchBarProps {
   /** The search value (for v-model) */
   modelValue?: string;
   /** Label text for the search bar */
@@ -66,7 +90,7 @@ interface Props {
   clearable?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiSearchBarProps>(), {
   size: "medium",
   minLength: 1,
   delay: 300,
@@ -138,7 +162,12 @@ const highlightedIndex = ref(-1);
 const searchTimeout = ref<number>();
 
 const filteredSuggestions = computed(() => {
-  if (!props.modelValue || !props.suggestions || typeof props.modelValue !== 'string') return [];
+  if (
+    !props.modelValue ||
+    !props.suggestions ||
+    typeof props.modelValue !== "string"
+  )
+    return [];
 
   const query = props.modelValue.toLowerCase();
   return props.suggestions
@@ -181,7 +210,11 @@ const handleInput = (event: Event) => {
 
 const handleFocus = (event: FocusEvent) => {
   emit("focus", event);
-  if (props.modelValue && typeof props.modelValue === 'string' && props.modelValue.length >= props.minLength) {
+  if (
+    props.modelValue &&
+    typeof props.modelValue === "string" &&
+    props.modelValue.length >= props.minLength
+  ) {
     showSuggestions.value = true;
   }
 };

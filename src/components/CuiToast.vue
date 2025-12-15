@@ -73,7 +73,7 @@
 import VoltToast from "../volt/VoltToast.vue";
 
 // Design System API
-interface Props {
+export interface CuiToastProps {
   /**
    * @description Position of the toast on the screen. Determines where toast messages will appear.
    * Available positions: 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right', 'center'
@@ -107,7 +107,7 @@ interface Props {
   baseZIndex?: number;
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<CuiToastProps>(), {
   position: "top-right",
   autoZIndex: true,
   baseZIndex: 0,

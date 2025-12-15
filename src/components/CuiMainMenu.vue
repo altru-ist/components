@@ -2,6 +2,7 @@
   <!-- Desktop/Tablet Menu -->
   <div
     v-if="!isMobile"
+    ref="menuContainerRef"
     v-bind="$attrs"
     :class="[
       menuClasses,
@@ -323,14 +324,14 @@
         COMMON_CLASSES.bgSurfaceElevated,
         COMMON_CLASSES.borderNeutral,
         COMMON_CLASSES.flexShrink0,
-        'border-t border-solid px-6 py-1 relative z-0 mt-auto',
+        'border-t border-solid py-1 relative z-0 mt-auto sticky bottom-0',
       ]"
     >
       <button
         ref="supportButtonRef"
         type="button"
         :class="[
-          'flex items-center justify-between pl-2 pr-2 py-2.5 cursor-pointer select-none w-full bg-transparent border-none text-left',
+          'flex items-center justify-between px-6 py-2.5 cursor-pointer select-none w-full bg-transparent border-none text-left',
           COMMON_CLASSES.roundedSm,
           COMMON_CLASSES.transitionAll,
           'hover:[box-shadow:inset_0_0_0_1px_var(--cui-border-neutral),_inset_0_0_0_999px_var(--cui-surface-default-hover)] hover:bg-transparent',
@@ -383,7 +384,7 @@
         ]"
         :style="{
           top: `${supportMenuPosition.top - 4}px`,
-          left: `${supportMenuPosition.left - 24}px`,
+          left: `${supportMenuPosition.left}px`,
           width: `${supportMenuPosition.width}px`,
           transform: 'translateY(-100%)',
         }"
@@ -693,32 +694,32 @@
 </template>
 
 <script lang="ts">
-export interface MenuItemBase {
+export interface MainMenuItemBase {
   id: string;
   label: string;
   icon: string;
   disabled?: boolean;
 }
 
-export interface MenuItem extends MenuItemBase {
+export interface MainMenuItem extends MainMenuItemBase {
   type: "item";
   badge?: string;
   badgeType?: "badge" | "pill-small" | "pill-large";
   badgeOutline?: boolean;
 }
 
-export interface MenuGroup extends MenuItemBase {
+export interface MenuGroup extends MainMenuItemBase {
   type: "group";
-  children: MenuItem[];
+  children: MainMenuItem[];
   expanded?: boolean;
 }
 
-export type MenuEntry = MenuItem | MenuGroup;
+export type MenuEntry = MainMenuItem | MenuGroup;
 
 /**
  * Props interface for the MainMenu component
  */
-export interface Props {
+export interface CuiMainMenuProps {
   /** Array of menu entries to display in the navigation */
   items?: MenuEntry[];
   /** Whether the menu is in collapsed state (shows only icons) */
@@ -740,7 +741,7 @@ export interface Props {
   /** Force mobile mode on/off (overrides auto-detection) */
   mobile?: boolean;
   /** Bottom menu items to display in the support/documentation popup */
-  bottomMenu?: MenuItem[];
+  bottomMenu?: MainMenuItem[];
 }
 </script>
 <script setup lang="ts">
@@ -768,7 +769,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiMainMenuProps>(), {
   items: () => [],
   collapsed: false,
   logoAlt: "Logo",
@@ -792,9 +793,9 @@ defineSlots<{
 const emit = defineEmits<{
   /**
    * Emitted when a menu item or group is clicked
-   * @arg {MenuItem | MenuGroup} item - The clicked menu item or group
+   * @arg {MainMenuItem | MenuGroup} item - The clicked menu item or group
    */
-  "item-click": [item: MenuItem | MenuGroup];
+  "item-click": [item: MainMenuItem | MenuGroup];
 
   /**
    * Emitted when the menu collapse state changes
@@ -828,12 +829,12 @@ const COMMON_CLASSES = {
   gap2: "gap-2",
 
   // Colors - Surface (used multiple times)
-  bgSurfaceElevated: "bg-[var(--cui-surface-elevated)]",
+  bgSurfaceElevated: "bg-[var(--cui-background-main-menu)]",
   borderNeutral: "border-[var(--cui-border-neutral)]",
 
   // Colors - Text (used multiple times)
   textHeaderBody: "text-[var(--cui-text-header-body)]",
-  textMuted: "text-[var(--cui-text-muted)]",
+  textMuted: "text-[var(--cui-text-subtitle-caption)]",
   textGray: "text-gray-600 dark:text-gray-300",
 
   // Typography (used multiple times)
@@ -878,6 +879,7 @@ const isMobile = computed(() => {
 // Mobile menu state
 const mobileMenuVisible = ref(false);
 const maxMobileIcons = 4;
+const menuContainerRef = ref<HTMLElement | null>(null);
 const mobileMenuRef = ref<HTMLElement | null>(null);
 
 const isCollapsed = ref(props.collapsed);
@@ -900,7 +902,7 @@ const menuClasses = computed(() => ({}));
 
 // Get flat list of all items (including items from groups)
 const flatItems = computed(() => {
-  const result: MenuItem[] = [];
+  const result: MainMenuItem[] = [];
   props.items.forEach((item) => {
     if (item.type === "item") {
       result.push(item);
@@ -918,15 +920,15 @@ const visibleMobileItems = computed(() => {
 });
 
 // Function to determine if a menu item is selected
-function isMenuItemSelected(item: MenuItem): boolean {
+function isMainMenuItemSelected(item: MainMenuItem): boolean {
   return props.activeItemId === item.id;
 }
 
 // Function to get mobile menu item styling
-function getMobileItemStyle(item: MenuItem): string {
+function getMobileItemStyle(item: MainMenuItem): string {
   const baseStyle = `${COMMON_CLASSES.flexCol} ${COMMON_CLASSES.flexCenter} p-1 ${COMMON_CLASSES.roundedLg} transition-colors min-w-0 flex-1`;
 
-  if (isMenuItemSelected(item)) {
+  if (isMainMenuItemSelected(item)) {
     return `${baseStyle} ${COMMON_CLASSES.bgAmber} ${COMMON_CLASSES.outlineAmber}`;
   }
 
@@ -934,8 +936,8 @@ function getMobileItemStyle(item: MenuItem): string {
 }
 
 // Function to get mobile menu item icon/text color
-function getMobileItemTextColor(item: MenuItem): string {
-  return isMenuItemSelected(item)
+function getMobileItemTextColor(item: MainMenuItem): string {
+  return isMainMenuItemSelected(item)
     ? COMMON_CLASSES.textAmber
     : COMMON_CLASSES.textGray;
 }
@@ -945,7 +947,7 @@ const toggleMobileMenu = () => {
 };
 
 // Handle mobile menu item click
-const handleMobileItemClick = (item: MenuItem) => {
+const handleMobileItemClick = (item: MainMenuItem) => {
   emit("item-click", item);
 };
 
@@ -1046,7 +1048,10 @@ const mobileAfterLeave = (el: Element) => {
   ]);
 };
 
-const handleItemClick = (item: MenuItem | MenuGroup, closeSupport = false) => {
+const handleItemClick = (
+  item: MainMenuItem | MenuGroup,
+  closeSupport = false,
+) => {
   // When collapsed, don't handle item clicks - let the menu expand instead
   if (isCollapsed.value) return;
 
@@ -1082,13 +1087,18 @@ const toggleGroup = (group: MenuGroup) => {
 };
 
 const toggleSupportMenu = () => {
-  if (!showSupportMenu.value && supportButtonRef.value) {
-    // Calculate position before showing
-    const rect = supportButtonRef.value.getBoundingClientRect();
+  if (
+    !showSupportMenu.value &&
+    supportButtonRef.value &&
+    menuContainerRef.value
+  ) {
+    // Calculate position before showing - use menu container for exact width and alignment
+    const menuRect = menuContainerRef.value.getBoundingClientRect();
+    const buttonRect = supportButtonRef.value.getBoundingClientRect();
     supportMenuPosition.value = {
-      top: rect.top,
-      left: rect.left,
-      width: 320, // Match menu width
+      top: buttonRect.top,
+      left: menuRect.left, // Align with menu's left edge
+      width: menuRect.width, // Match menu's exact width
     };
   }
   showSupportMenu.value = !showSupportMenu.value;

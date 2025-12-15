@@ -1,16 +1,16 @@
 <template>
   <header
     ref="headerRef"
-    class="w-full h-[70px] bg-[var(--cui-surface-default-white)]/90 backdrop-filter backdrop-blur border-none sticky top-0 z-10"
+    class="w-full h-[70px] bg-[var(--cui-background-header)]/90 backdrop-filter backdrop-blur border-none sticky top-0 z-10"
     :class="{ 'shadow-md': isScrolled }"
   >
     <div
-      class="max-w-full leading-[70px] mx-auto grid items-center px-4"
-      :class="gridLayoutClasses"
+      class="max-w-full max-h-[70px] h-full leading-[70px] mx-auto flex items-center px-4"
+      :class="flexLayoutClasses"
     >
       <!-- Left: Breadcrumbs -->
       <div
-        class="min-w-0 overflow-hidden"
+        class="flex-1 min-w-0 overflow-hidden"
         :class="{ 'hidden md:block': showSearch }"
       >
         <slot name="breadcrumbs">
@@ -25,7 +25,7 @@
       <!-- Center-Left: Search Bar -->
       <div
         v-if="showSearch"
-        class="min-w-[120px] max-w-[200px] sm:min-w-[150px] sm:max-w-[200px] md:min-w-[180px] md:max-w-[250px] lg:min-w-[200px] lg:max-w-[300px]"
+        class="shrink-0 min-w-[120px] max-w-[200px] sm:min-w-[150px] sm:max-w-[200px] md:min-w-[180px] md:max-w-[250px] lg:min-w-[200px] lg:max-w-[300px]"
       >
         <SearchBar
           :model-value="searchValue"
@@ -40,7 +40,7 @@
       <!-- Center-Right: Action Buttons Slot -->
       <div
         v-if="showActions"
-        class="flex items-center justify-end gap-2 sm:gap-1 md:gap-2"
+        class="shrink-0 flex items-center justify-end gap-2 sm:gap-1 md:gap-2"
       >
         <slot name="actions">
           <!-- Default: No actions -->
@@ -66,12 +66,9 @@
           aria-haspopup="true"
           aria-controls="overlay_menu"
         />
-        <VoltMenu
+        <CuiMenu
           v-if="hasSlotContent(slots['avatar-menu'])"
           ref="menuCustom"
-          :pt="{
-            root: 'relative bg-surface-0 dark:bg-surface-900 text-surface-700 dark:text-surface-0 border border-surface-200 dark:border-surface-700 rounded-md min-w-52 p-popup:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)]',
-          }"
           id="overlay_menu"
           :model="itemsCustom"
           :popup="true"
@@ -79,8 +76,8 @@
           <template #item="{ item }">
             <slot name="avatar-menu" :item="item" />
           </template>
-        </VoltMenu>
-        <VoltMenu
+        </CuiMenu>
+        <CuiMenu
           v-else
           ref="menu"
           id="overlay_menu"
@@ -111,11 +108,11 @@
 import { computed, onMounted, onUnmounted, ref, useSlots } from "vue";
 import { Avatar, Breadcrumbs, CuiButton, SearchBar } from "../main";
 import { hasSlotContent } from "../utils/slotsUtils";
-import VoltMenu from "../volt/VoltMenu.vue";
 import type { BreadcrumbItem } from "./CuiBreadcrumbs.vue";
+import CuiMenu from "./CuiMenu.vue";
 
 // Component API
-interface Props {
+export interface CuiHeaderProps {
   /** Breadcrumb items for navigation */
   breadcrumbItems?: BreadcrumbItem[];
   /** Custom aria-label for breadcrumb navigation */
@@ -146,7 +143,7 @@ interface Props {
   avatarMenuItems?: any[];
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiHeaderProps>(), {
   breadcrumbAriaLabel: "Page navigation",
   showSearch: true,
   searchPlaceholder: "Search...",
@@ -240,11 +237,11 @@ const items = computed(() => {
         items: [
           {
             label: "Refresh",
-            icon: "pi pi-refresh",
+            icon: "refresh",
           },
           {
             label: "Export",
-            icon: "pi pi-upload",
+            icon: "upload",
           },
         ],
       },
@@ -266,46 +263,12 @@ const itemsCustom = computed(() => {
   );
 });
 
-// Computed properties for dynamic grid layout
-const gridLayoutClasses = computed(() => {
-  // Default: grid-cols-[minmax(0,1fr)_minmax(0,300px)_auto_auto] (breadcrumbs search actions avatar)
-  // No actions: grid-cols-[minmax(0,1fr)_minmax(200px,300px)_auto] (breadcrumbs search avatar)
-  // No login: grid-cols-[minmax(0,1fr)_minmax(200px,300px)_auto] (breadcrumbs search actions)
-  // No actions + no login: grid-cols-[minmax(0,1fr)_minmax(200px,300px)] (breadcrumbs search)
+// Computed properties for dynamic flex layout
+const flexLayoutClasses = computed(() => {
+  // Flex layout: Column 1 (breadcrumbs) auto width left aligned, Columns 2-3 (search/actions/avatar) fit content right aligned
+  const responsiveClasses = ["gap-2 sm:gap-3 md:gap-4 lg:gap-6"];
 
-  const hasActions = props.showActions;
-  const hasLogin = props.loginStatus !== "no-login";
-
-  // Mobile responsive classes - hide breadcrumbs on small screens when search is shown
-  const responsiveClasses = [
-    "px-3 gap-2 sm:px-4 sm:gap-3 md:px-6 md:gap-4 lg:gap-6",
-  ];
-
-  if (!hasActions && !hasLogin) {
-    // Only breadcrumbs and search
-    return [
-      ...responsiveClasses,
-      "grid-cols-[1fr_minmax(120px,200px)] sm:grid-cols-[1fr_minmax(150px,200px)] md:grid-cols-[minmax(0,1fr)_minmax(180px,250px)] lg:grid-cols-[minmax(0,1fr)_minmax(200px,300px)]",
-    ].join(" ");
-  } else if (!hasActions) {
-    // Breadcrumbs, search, avatar
-    return [
-      ...responsiveClasses,
-      "grid-cols-[1fr_minmax(120px,200px)_auto] sm:grid-cols-[1fr_minmax(150px,200px)_auto] md:grid-cols-[minmax(0,1fr)_minmax(180px,250px)_auto] lg:grid-cols-[minmax(0,1fr)_minmax(200px,300px)_auto]",
-    ].join(" ");
-  } else if (!hasLogin) {
-    // Breadcrumbs, search, actions
-    return [
-      ...responsiveClasses,
-      "grid-cols-[auto_auto_auto] sm:grid-cols-[auto_auto_auto] md:grid-cols-[minmax(0,1fr)_minmax(180px,250px)_auto] lg:grid-cols-[minmax(0,1fr)_minmax(200px,300px)_auto]",
-    ].join(" ");
-  } else {
-    // All four: breadcrumbs, search, actions, avatar
-    return [
-      ...responsiveClasses,
-      "grid-cols-[auto_auto_auto] sm:grid-cols-[auto_auto_auto] md:grid-cols-[minmax(0,1fr)_minmax(180px,250px)_auto_auto] lg:grid-cols-[minmax(0,1fr)_minmax(0,300px)_auto_auto]",
-    ].join(" ");
-  }
+  return responsiveClasses.join(" ");
 });
 
 const toggle = (event: Event) => {

@@ -53,7 +53,7 @@ const theme = ref<SelectPassThroughOptions>({
         border border-surface-300 dark:border-surface-700
         hover:border-surface-800 dark:hover:border-surface-600
         p-focus:outline-none p-focus:ring-2 focp-focusus:ring-[var(--cui-border-focus)] p-focus:ring-offset-2
-        p-invalid:border-red-400 dark:p-invalid:border-red-300
+        p-invalid:border-[var(--cui-border-danger)]
         p-disabled:p-readonly:bg-surface-100 p-readonly:text-surface-800 dark:p-readonly:bg-surface-700 dark:p-readonly:text-surface-400 p-readonly:pointer-events-none
         p-disabled:bg-surface-200 p-disabled:text-surface-500 dark:p-disabled:bg-surface-700 dark:p-disabled:text-surface-400 p-disabled:pointer-events-none
         shadow-[0_1px_2px_0_rgba(18,18,23,0.05)]
@@ -103,8 +103,14 @@ const theme = ref<SelectPassThroughOptions>({
         p-disabled:cursor-not-allowed p-disabled:text-surface-400 dark:p-disabled:text-surface-400
         transition-colors duration-200`,
   optionLabel: `flex-1 overflow-hidden text-ellipsis whitespace-nowrap order-1`,
-  optionCheckIcon: ` mr-0 text-surface-600 dark:text-surface-300 text-base flex-shrink-0 order-2`,
-  optionBlankIcon: `mr-0 text-[var(--cui-text-success-large)] dark:text-surface-300 text-base flex-shrink-0 order-2`,
+  optionCheckIcon: {
+    class: `mr-0 text-surface-600 dark:text-surface-300 text-base flex-shrink-0 order-2`,
+    label: undefined, // Prevent parent's computed label from being passed
+  },
+  optionBlankIcon: {
+    class: `mr-0 text-[var(--cui-text-success-large)] dark:text-surface-300 text-base flex-shrink-0 order-2`,
+    label: undefined, // Prevent parent's computed label from being passed
+  },
   emptyMessage: `px-3 py-2 text-surface-500 text-center italic`,
   virtualScroller: ``,
   transition: {

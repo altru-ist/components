@@ -22,7 +22,7 @@ import { computed, inject, ref } from "vue";
 import { ptViewMerge } from "../volt/utils";
 
 // Design System API
-interface Props {
+export interface CuiBadgeProps {
   /** Badge content/value */
   value?: string | number;
   /** Visual variant of the badge */
@@ -33,7 +33,7 @@ interface Props {
   decorative?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<CuiBadgeProps>(), {
   variant: "badge",
   outlined: false,
   decorative: false,
